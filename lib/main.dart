@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uts_2022110021/home_screen.dart';
 import 'package:uts_2022110021/login_screen.dart';
 
 void main() {
@@ -10,9 +11,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen()
+      title: 'Product App',
+      initialRoute: '/',
+      routes: {
+        '/': (context) => LoginScreen(),
+        '/home': (context) => HomeScreen(),
+      },
     );
   }
 }
