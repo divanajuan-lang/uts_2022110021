@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:uts_2022110021/product.dart';
 import 'package:uts_2022110021/product_card.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  final List<Product> products = Product.getAllProducts();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,7 @@ class HomeScreen extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: BoxDecoration(color: Color(0xFF354E41)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -39,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                   Icon(Icons.account_circle, size: 60, color: Colors.white),
                   SizedBox(height: 8),
                   Text(
-                    'User Name',
+                    'Poppa People',
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 ],
@@ -85,9 +88,9 @@ class HomeScreen extends StatelessWidget {
                 mainAxisSpacing: 12,
                 childAspectRatio: 0.75,
               ),
-              itemCount: 8,
+              itemCount: products.length,
               itemBuilder: (context, index) {
-                return ProductCard();
+                return ProductCard(product: products[index]);
               },
             ),
           ),
@@ -97,7 +100,7 @@ class HomeScreen extends StatelessWidget {
         onPressed: () {
           Navigator.pushNamed(context, '/cart');
         },
-        backgroundColor: Colors.grey[700],
+        backgroundColor: const Color(0xFF354E41),
         child: const Icon(Icons.shopping_cart, color: Colors.white),
       ),
     );

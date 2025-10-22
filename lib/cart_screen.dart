@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uts_2022110021/Product.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -8,6 +9,33 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  final List<Product> products = [
+    Product(
+      id: '1',
+      name: 'Americano',
+      image: 'assets/images/americano.webp',
+      price: 25000,
+      description:
+          'Kopi Americano adalah minuman kopi yang dibuat dengan menambahkan air panas ke dalam espresso. Menghasilkan rasa kopi yang kuat namun lebih ringan dibandingkan espresso murni. Cocok untuk Anda yang menyukai kopi hitam dengan intensitas yang pas.',
+    ),
+    Product(
+      id: '2',
+      name: 'Ayam Tepung',
+      image: 'assets/images/ayam-tepung.webp',
+      price: 35000,
+      description:
+          'Ayam goreng tepung crispy dengan bumbu rahasia yang gurih dan renyah. Digoreng dengan sempurna hingga kulitnya berwarna keemasan. Disajikan dengan nasi hangat dan sambal, cocok untuk makan siang atau malam Anda.',
+    ),
+    Product(
+      id: '5',
+      name: 'Mie Goreng',
+      image: 'assets/images/mie-goreng.webp',
+      price: 18000,
+      description:
+          'Mie goreng spesial dengan bumbu yang meresap sempurna. Dimasak dengan sayuran segar dan dilengkapi dengan telur. Tekstur mie yang kenyal dan rasa yang gurih membuat hidangan ini selalu menjadi favorit.',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,8 +67,11 @@ class _CartScreenState extends State<CartScreen> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: 4,
+              itemCount: products.length,
               itemBuilder: (context, index) {
+
+                final product = products[index];
+
                 return Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
@@ -50,27 +81,20 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   child: Row(
                     children: [
-                      Container(
+                      Image.asset(
+                        product.image,
                         width: 60,
                         height: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Icon(
-                          Icons.image,
-                          size: 30,
-                          color: Colors.grey[600],
-                        ),
+                        fit: BoxFit.cover,
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Title',
-                              style: TextStyle(
+                            Text(
+                              product.name,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black,
@@ -78,7 +102,7 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Rp 9.999.999 × 9',
+                              '${product.price} × 1',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.grey[600],
@@ -88,9 +112,9 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      const Text(
-                        'Rp 9.999.999',
-                        style: TextStyle(
+                      Text(
+                        product.price.toString(),
+                        style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
@@ -100,7 +124,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 );
               },
-            ),
+            )
           ),
           Container(
             padding: const EdgeInsets.all(16),
@@ -112,7 +136,7 @@ class _CartScreenState extends State<CartScreen> {
               children: [
                 const Expanded(
                   child: Text(
-                    'Rp 9.999.999',
+                    'Rp 78000',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -123,7 +147,7 @@ class _CartScreenState extends State<CartScreen> {
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.indigo[700],
+                    backgroundColor: Color(0xFF354E41),
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 32,

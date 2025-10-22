@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uts_2022110021/product.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
@@ -26,6 +27,9 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Product product =
+        ModalRoute.of(context)!.settings.arguments as Product;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -37,7 +41,6 @@ class _ProductScreenState extends State<ProductScreen> {
             Navigator.pop(context);
           },
         ),
-        centerTitle: false,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(bottom: 100),
@@ -46,13 +49,17 @@ class _ProductScreenState extends State<ProductScreen> {
           children: [
             Container(
               width: double.infinity,
-              height: 200,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                child: Icon(Icons.image, size: 60, color: Colors.grey[600]),
+              height: 300,
+              decoration: BoxDecoration(color: Colors.grey[300]),
+              child: Image.asset(
+                product.image,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Center(
+                    child: Icon(Icons.image, size: 60, color: Colors.grey[600]),
+                  );
+                },
               ),
             ),
             Padding(
@@ -60,9 +67,9 @@ class _ProductScreenState extends State<ProductScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Product A',
-                    style: TextStyle(
+                  Text(
+                    product.name,
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
@@ -70,25 +77,23 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                   const SizedBox(height: 8),
 
-                  const Text(
-                    'Rp 9.999.999',
-                    style: TextStyle(
-                      fontSize: 18,
+                  Text(
+                    product.formattedPrice,
+                    style: const TextStyle(
+                      fontSize: 20,
                       fontWeight: FontWeight.w600,
-                      color: Colors.black87,
+                      color: Color(0xFF354E41),
                     ),
                   ),
                   const SizedBox(height: 16),
 
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus faucibus ac nelis et bibendum. Etiam sed elit. Sed laoreet blandit oreet sagittis pretium. Nam metus placerat mi. Donec posuere, augue in varius pulvinar, dui erat tempor magna. Morbi rutrum efficitur orci eros ac lectus. Praesent consequat dui ut, sit amet venenatis arcu metus ac. Maecenas nisi leo. Pellentesque semper tortor vel turpis malesuada. Pellentesque ac fermentum turpis, non pulvinar sem. Sed tincidunt mi in non hendrerit.',
-                    style: TextStyle(
-                      fontSize: 14,
-                      height: 1.5,
-                      color: Colors.grey[700],
-                    ),
+                    product.description,
+                    style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                     textAlign: TextAlign.justify,
                   ),
+
+                  const SizedBox(height: 16),
                 ],
               ),
             ),
@@ -97,62 +102,63 @@ class _ProductScreenState extends State<ProductScreen> {
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(top: BorderSide(color: Colors.grey[300]!)),
-        ),
-        child: Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey[400]!),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.remove, size: 18),
-                    onPressed: decrementQuantity,
-                    padding: const EdgeInsets.all(8),
-                    constraints: const BoxConstraints(
-                      minWidth: 36,
-                      minHeight: 36,
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Text(
-                      '$quantity',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+        child: SafeArea(
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey[400]!),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.remove, size: 18),
+                      onPressed: decrementQuantity,
+                      padding: const EdgeInsets.all(8),
+                      constraints: const BoxConstraints(
+                        minWidth: 36,
+                        minHeight: 36,
                       ),
                     ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.add, size: 18),
-                    onPressed: incrementQuantity,
-                    padding: const EdgeInsets.all(8),
-                    constraints: const BoxConstraints(
-                      minWidth: 36,
-                      minHeight: 36,
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Text(
+                        '$quantity',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                    IconButton(
+                      icon: const Icon(Icons.add, size: 18),
+                      onPressed: incrementQuantity,
+                      padding: const EdgeInsets.all(8),
+                      constraints: const BoxConstraints(
+                        minWidth: 36,
+                        minHeight: 36,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: ElevatedButton(
+              
+              Expanded(child: const SizedBox(width: 12)),
+
+              ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/cart');
+                  Navigator.pushReplacementNamed(context, '/cart');
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: const Color(0xFF354E41),
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 14,
+                  ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 child: const Text(
@@ -160,8 +166,8 @@ class _ProductScreenState extends State<ProductScreen> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
