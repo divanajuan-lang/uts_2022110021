@@ -94,7 +94,9 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, '/cart');
+        },
         backgroundColor: Colors.grey[700],
         child: const Icon(Icons.shopping_cart, color: Colors.white),
       ),
